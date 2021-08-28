@@ -49,6 +49,21 @@ class App extends Component {
     }
   }
 
+  // Function to comfirm to delete item
+  alertThis(key) {
+    var txt;
+    var r = confirm('Are you Sure,This item will be deleted');
+    if (r == true) {
+      console.log('hi');
+
+      this.deleteItem(key);
+
+      txt = 'You pressed OK!';
+    } else {
+      txt = 'You pressed Cancel!';
+    }
+  }
+
   // Function to delete item from list use id to delete
   deleteItem(key) {
     const list = [...this.state.list];
@@ -64,57 +79,78 @@ class App extends Component {
 
   render() {
     return (
-      <Container>
-        <Row
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontSize: '3rem',
-            fontWeight: 'bolder'
-          }}
-        >
-          TODO LIST
-        </Row>
+      <div>
+        <Container fluid>
+          <Row
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              fontSize: '3rem',
+              fontWeight: 'bolder',
+              color: 'Blue'
+            }}
+          >
+            TODO LIST
+          </Row>
 
-        <hr />
-        <Row>
-          <Col md={{ span: 5, offset: 4 }}>
-            <InputGroup className="mb-3">
-              <FormControl
-                placeholder="add item . . . "
-                size="lg"
-                value={this.state.userInput}
-                onChange={item => this.updateInput(item.target.value)}
-                aria-label="add something"
-                aria-describedby="basic-addon2"
-              />
-              <InputGroup.Append>
-                <Button variant="dark" size="lg" onClick={() => this.addItem()}>
-                  ADD
-                </Button>
-              </InputGroup.Append>
-            </InputGroup>
-          </Col>
-        </Row>
-        <Row>
-        {this.state.list.map(item => {
-                return ( 
-                  <Col >
-                  <ListGroup.Item
-                    variant="dark"
-                   
+          <hr />
+          <Row>
+            <Col>
+              <InputGroup className="mb-3">
+                <FormControl
+                  placeholder="add item . . . "
+                  size="lg"
+                  value={this.state.userInput}
+                  onChange={item => this.updateInput(item.target.value)}
+                  aria-label="add something"
+                  aria-describedby="basic-addon2"
+                />
+                <InputGroup.Append>
+                  <Button
+                    variant="primary"
+                    size="lg"
+                    onClick={() => this.addItem()}
                   >
-                    {item.value}
-                    <Button variant="danger" size="" onClick={() => this.deleteItem(item.id)}>Delete</Button></ListGroup.Item></Col>  
-                    
-                  
-                );
-              })}
-        
-                                
-        </Row>
-      </Container>
+                    ADD
+                  </Button>
+                </InputGroup.Append>
+              </InputGroup>
+            </Col>
+          </Row>
+          <div>
+            {this.state.list.map(item => {
+              return (
+                <ListGroup>
+                  <ListGroup.Item variant="dark">
+                    <Row
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        fontSize: '1rem',
+                        fontWeight: 'bolder'
+                      }}
+                    >
+                      <Col>{item.value}</Col>
+
+                      <Col md={{ offset: 10 }}>
+                        <Button
+                          variant="danger"
+                          size=""
+                          onClick={() => this.alertThis(item.id)}
+                        >
+                          Delete
+                        </Button>
+                      </Col>
+                    </Row>
+                  </ListGroup.Item>
+                </ListGroup>
+              );
+            })}
+          </div>
+        </Container>
+      </div>
     );
   }
 }
